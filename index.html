@@ -2,60 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Files.fm Video Platform</title>
+<title>Vimeo Video Gallery</title>
 <style>
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
 }
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+#searchBar {
+  display: block;
+  margin: 0 auto 30px auto;
+  width: 50%;
+  max-width: 500px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 #videoGallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 .videoBox {
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: center;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
 }
 .videoBox:hover {
-    transform: scale(1.03);
-    transition: 0.3s;
+  transform: scale(1.03);
+}
+.videoWrapper {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
 }
 .videoTitle {
-    margin-top: 8px;
-    font-weight: bold;
-    font-size: 16px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 16px;
 }
 </style>
 </head>
 <body>
 
-<h1>My Video Gallery</h1>
+<h1>Vimeo Video Gallery</h1>
+<input type="text" id="searchBar" placeholder="Search videos...">
 
-<div id="videoGallery">
+<div id="videoGallery"></div>
 
-  <!-- First video -->
-  <div class="videoBox">
-    <script type="text/javascript" src="https://files.fm/embed/playerv2?hash=xwev3wy8xk&autoplay=off&autoload=off&w=100%&h=auto&poster_src=https://files.fm/thumb_video_picture.php?i=xwev3wy8xk&source_type=p2p" id="filesfm_embed_js__xwev3wy8xk"></script>
-    <div class="videoTitle">My First Video</div>
-  </div>
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+// List your Vimeo videos here
+const videos = [
+  { id: "1171381312", title: "First Video" },
+  { id: "NEW_VIDEO_ID_1", title: "Second Video" },
+  { id: "NEW_VIDEO_ID_2", title: "Third Video" },
+  // Add more videos here
+];
 
-  <!-- Second video -->
-  <div class="videoBox">
-    <script type="text/javascript" src="https://files.fm/embed/playerv2?hash=8rs9dp5pjr&autoplay=off&autoload=off&w=100%&h=auto&poster_src=https://files.fm/thumb_video_picture.php?i=8rs9dp5pjr&source_type=simple" id="filesfm_embed_js__8rs9dp5pjr"></script>
-    <div class="videoTitle">Second Video</div>
-  </div>
+function loadVideos(filter = "") {
+  const gallery = document.getElementById("videoGallery");
+  gallery.innerHTML = ""; // clear gallery
 
-</div>
+  videos.forEach(video => {
+    if(!video.title.toLowerCase().includes(filter.toLowerCase())) return;
+
+    const box = document.createElement("div");
+    box.className = "videoBox";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "videoWrapper";
+
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${video.id}?badge=0&autopause=0&player_id=0&app_id=58479`;
+    iframe.frameBorder = "0";
+    iframe.allow = "autoplay; fullscreen; picture-in-picture";
+    iframe.allowFullscreen = true;
+    wrapper.appendChild(iframe);
+
+    box.appendChild(wrapper);
+
+    const title = document.createElement("div");
+    title.className = "videoTitle";
+    title.textContent = video.title;
+    box.appendChild(title);
+
+    gallery.appendChild(box);
+  });
+}
+
+// Initial load
+loadVideos();
+
+// Filter videos by search
+document.getElementById("searchBar").addEventListener("input", (e) => {
+  loadVideos(e.target.value);
+});
+</script>
 
 </body>
 </html>
