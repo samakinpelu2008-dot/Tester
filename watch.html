@@ -6,25 +6,64 @@
 <style>
 body { font-family: Arial; background:#f9f9f9; margin:0; padding:20px; }
 .videoContainer { max-width:900px; margin:auto; }
+.backButton { margin-bottom: 15px; display:inline-block; padding:10px 15px; background:#ff0000; color:white; text-decoration:none; border-radius:5px; }
 .videoTitle { font-weight:bold; font-size:24px; margin:15px 0; }
-iframe { width:100%; height:500px; border:0; }
+.videoDesc { font-size:16px; color:#333; margin-bottom:30px; }
+iframe { width:100%; height:500px; border:0; border-radius:5px; }
+@media(max-width:768px){ iframe{ height:300px; } }
 </style>
 </head>
 <body>
 
 <div class="videoContainer">
+  <a href="index.html" class="backButton">&larr; Back to Gallery</a>
   <div class="videoTitle" id="videoTitle"></div>
   <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+  <div class="videoDesc" id="videoDesc"></div>
+
+  <h3>Related Videos</h3>
+  <div id="relatedVideos"></div>
 </div>
 
 <script>
-// Get query parameters
+// Get query params
 const params = new URLSearchParams(window.location.search);
 const videoId = params.get("id");
 const videoTitle = params.get("title");
+const videoDesc = params.get("desc");
 
 document.getElementById("videoTitle").textContent = videoTitle;
 document.getElementById("videoPlayer").src = `https://www.xnxx.com/embedframe/${videoId}`;
+document.getElementById("videoDesc").textContent = videoDesc;
+
+// Related videos logic
+const videos = [
+  { id: "uuktuoocb1f", title: "First Video" },
+  { id: "abcd1234ecg", title: "Second Video" },
+  { id: "hijk5678ljn", title: "Third Video" }
+];
+
+const relatedDiv = document.getElementById("relatedVideos");
+videos.forEach(video => {
+  if(video.id === videoId) return; // skip current video
+
+  const box = document.createElement("div");
+  box.className = "videoBox";
+  box.style.display="flex";
+  box.style.marginBottom="10px";
+  box.style.cursor="pointer";
+  box.style.alignItems="center";
+  box.style.gap="10px";
+
+  const thumbUrl = `https://www.xnxx.com/embedframe/${video.id}/thumbnail.jpg`;
+  box.innerHTML = `<img src="${thumbUrl}" alt="${video.title}" width="120" height="70" style="object-fit:cover;border-radius:3px;"><div>${video.title}</div>`;
+
+  box.addEventListener("click", ()=> {
+    window.location.href = `watch.html?id=${video.id}&title=${encodeURIComponent(video.title)}&desc=${encodeURIComponent("Description for "+video.title)}`;
+  });
+
+  relatedDiv.appendChild(box);
+});
 </script>
 
 </body>
