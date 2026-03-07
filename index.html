@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>Video Gallery</title>
 <style>
-body { font-family: Arial; background:#f9f9f9; margin:20px; }
+body { font-family: Arial; background:#f9f9f9; margin:0; padding:20px; }
 h1 { text-align:center; margin-bottom:20px; }
-#videoGallery { display:flex; flex-direction:column; gap:20px; }
-.videoBox { cursor:pointer; background:white; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.15); display:flex; align-items:center; gap:15px; }
+#videoGallery { display:flex; flex-direction:column; gap:20px; max-width:900px; margin:auto; }
+.videoBox { cursor:pointer; background:white; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.15); display:flex; align-items:center; gap:15px; transition: transform 0.2s; }
+.videoBox:hover { transform: scale(1.02); }
 .videoBox img { width:180px; height:100px; object-fit:cover; border-radius:5px; }
 .videoTitle { font-weight:bold; font-size:16px; color:#111; }
 </style>
@@ -18,24 +19,27 @@ h1 { text-align:center; margin-bottom:20px; }
 <div id="videoGallery"></div>
 
 <script>
-// List your videos (with thumbnails)
+// Videos list (no need for manual thumbnails; we can auto-generate from iframe if platform supports)
 const videos = [
-  { id: "uuktuoocb1f", title: "First Video", thumbnail: "thumbnails/thumb1.jpg" },
-  { id: "abcd1234efg", title: "Second Video", thumbnail: "thumbnails/thumb2.jpg" },
-  { id: "hijk5678lmn", title: "Third Video", thumbnail: "thumbnails/thumb3.jpg" }
+  { id: "uuktuoocb1f", title: "First Video", description: "This is the first video." },
+  { id: "abcd1234efg", title: "Second Video", description: "Second video description." },
+  { id: "hijk5678lmn", title: "Third Video", description: "Third video description." }
 ];
 
 const gallery = document.getElementById("videoGallery");
 
+// Create gallery items
 videos.forEach(video => {
   const box = document.createElement("div");
   box.className = "videoBox";
 
-  box.innerHTML = `<img src="${video.thumbnail}" alt="${video.title}"><div class="videoTitle">${video.title}</div>`;
+  // Use a placeholder thumbnail (can later be replaced with auto-generated)
+  const thumbnailUrl = `https://www.sammy.com/embedframe/${video.id}/thumbnail.jpg`;
+
+  box.innerHTML = `<img src="${thumbnailUrl}" alt="${video.title}"><div class="videoTitle">${video.title}</div>`;
   
   box.addEventListener("click", () => {
-    // Open viewing page with query param
-    window.location.href = `watch.html?id=${video.id}&title=${encodeURIComponent(video.title)}`;
+    window.location.href = `watch.html?id=${video.id}&title=${encodeURIComponent(video.title)}&desc=${encodeURIComponent(video.description)}`;
   });
 
   gallery.appendChild(box);
