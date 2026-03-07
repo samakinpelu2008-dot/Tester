@@ -2,106 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Video Platform</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    padding: 20px;
-}
-h1, h2 {
-    text-align: center;
-}
-#uploadSection {
-    text-align: center;
-    margin-bottom: 30px;
-}
-#fileInput {
-    padding: 8px;
-}
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-#videos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-.videoBox {
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-video {
-    width: 400px;
-    border-radius: 5px;
-}
-</style>
+<title>Files.fm Video Example</title>
 </head>
-
 <body>
 
-<h1>My Video Platform</h1>
+<h1>My Video from Files.fm</h1>
 
-<div id="uploadSection">
-    <input type="file" id="fileInput">
-    <button onclick="uploadVideo()">Upload</button>
-</div>
-
-<h2>Uploaded Videos</h2>
-<div id="videos"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-// Supabase setup
-const supabaseUrl = "https://vaffcwxgredmpjnebpkk.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhZmZjd3hncmVkbXBqbmVicGtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MDc5MzEsImV4cCI6MjA4ODQ4MzkzMX0.pZvY_vKBrvsnYkUPDdlrEqMu4LhMaqQFd24aSCMTmE8";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-// Upload video function
-async function uploadVideo() {
-    const file = document.getElementById("fileInput").files[0];
-
-    if(!file){
-        alert("Please select a video first!");
-        return;
-    }
-
-    // Upload with upsert: true (replace if same name exists)
-    const { data, error } = await supabase.storage
-        .from("videos")
-        .upload(file.name, file, { upsert: true });
-
-    if(error){
-        alert("Upload failed!");
-        console.error(error);
-        return;
-    }
-
-    const { data: urlData } = supabase.storage
-        .from("videos")
-        .getPublicUrl(file.name);
-
-    addVideo(urlData.publicUrl);
-}
-
-// Add video to the page
-function addVideo(url){
-    const box = document.createElement("div");
-    box.className = "videoBox";
-
-    const vid = document.createElement("video");
-    vid.src = url;
-    vid.controls = true;
-
-    box.appendChild(vid);
-    document.getElementById("videos").appendChild(box);
-}
-</script>
+<!-- Embed the Files.fm player -->
+<script type="text/javascript" 
+src="https://files.fm/embed/playerv2?hash=xwev3wy8xk&autoplay=off&autoload=off&w=100%&h=auto&poster_src=https://files.fm/thumb_video_picture.php?i=xwev3wy8xk&source_type=p2p" 
+id="filesfm_embed_js__xwev3wy8xk"></script>
 
 </body>
 </html>
