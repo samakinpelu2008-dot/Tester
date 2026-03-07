@@ -10,6 +10,9 @@ body { font-family: Arial; background:#f9f9f9; margin:0; padding:20px; }
 .videoTitle { font-weight:bold; font-size:24px; margin:15px 0; }
 .videoDesc { font-size:16px; color:#333; margin-bottom:30px; }
 iframe { width:100%; height:500px; border:0; border-radius:5px; }
+.relatedVideo { display:flex; gap:10px; cursor:pointer; align-items:center; margin-bottom:10px; }
+.relatedVideo img { width:120px; height:70px; object-fit:cover; border-radius:3px; }
+.relatedVideo div { font-weight:bold; }
 @media(max-width:768px){ iframe{ height:300px; } }
 </style>
 </head>
@@ -36,28 +39,22 @@ document.getElementById("videoTitle").textContent = videoTitle;
 document.getElementById("videoPlayer").src = `https://www.xnxx.com/embedframe/${videoId}`;
 document.getElementById("videoDesc").textContent = videoDesc;
 
-// Related videos logic
+// Related videos
 const videos = [
   { id: "uuktuoocb1f", title: "First Video" },
-  { id: "abcd1234ecg", title: "Second Video" },
-  { id: "hijk5678ljn", title: "Third Video" }
+  { id: "abcd1234efg", title: "Second Video" },
+  { id: "hijk5678lmn", title: "Third Video" }
 ];
 
 const relatedDiv = document.getElementById("relatedVideos");
 videos.forEach(video => {
-  if(video.id === videoId) return; // skip current video
-
+  if(video.id === videoId) return; // skip current
   const box = document.createElement("div");
-  box.className = "videoBox";
-  box.style.display="flex";
-  box.style.marginBottom="10px";
-  box.style.cursor="pointer";
-  box.style.alignItems="center";
-  box.style.gap="10px";
-
+  box.className = "relatedVideo";
+  
   const thumbUrl = `https://www.xnxx.com/embedframe/${video.id}/thumbnail.jpg`;
-  box.innerHTML = `<img src="${thumbUrl}" alt="${video.title}" width="120" height="70" style="object-fit:cover;border-radius:3px;"><div>${video.title}</div>`;
-
+  box.innerHTML = `<img src="${thumbUrl}" alt="${video.title}"><div>${video.title}</div>`;
+  
   box.addEventListener("click", ()=> {
     window.location.href = `watch.html?id=${video.id}&title=${encodeURIComponent(video.title)}&desc=${encodeURIComponent("Description for "+video.title)}`;
   });
