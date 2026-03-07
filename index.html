@@ -1,58 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Free Video Library</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-    h1 { text-align: center; }
-    #videos { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .video-container { width: 300px; }
-    video { width: 100%; height: auto; border: 2px solid #333; }
-    button { padding: 10px 20px; font-size: 16px; margin-bottom: 20px; cursor: pointer; }
-  </style>
+<meta charset="UTF-8">
+<title>Video Upload Library</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f2f2f2;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+#uploadBtn{
+display:block;
+margin:20px auto;
+padding:12px 25px;
+font-size:16px;
+cursor:pointer;
+}
+
+#gallery{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
+}
+
+.videoBox{
+width:320px;
+background:white;
+padding:10px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+video{
+width:100%;
+border-radius:5px;
+}
+</style>
+
 </head>
+
 <body>
 
-<h1>My Free Video Library</h1>
+<h1>My Video Library</h1>
 
-<button id="upload_widget">Upload Video</button>
+<button id="uploadBtn">Upload Video</button>
 
-<div id="videos"></div>
+<div id="gallery"></div>
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+
 <script>
-  const cloudName = 'dl7yjfpca'; // your Cloud Name
-  const uploadPreset = 'irlEAK6ec4HytAtXWe_g8sZEdOU'; // your Upload Preset
 
-  const container = document.getElementById('videos');
+const cloudName = "dl7yjfpca"
+const uploadPreset = "irlEAK6ec4HytAtXWe_g8sZEdOU"
 
-  // Initialize Cloudinary Upload Widget
-  const myWidget = cloudinary.createUploadWidget({
-    cloudName: cloudName,
-    uploadPreset: uploadPreset,
-    sources: ['local', 'url'],
-    multiple: true,
-    resourceType: 'video'
-  }, (error, result) => {
-    if (!error && result && result.event === "success") {
-      console.log('Uploaded video URL:', result.info.secure_url);
+const gallery = document.getElementById("gallery")
 
-      // Add uploaded video to gallery
-      const div = document.createElement('div');
-      div.className = 'video-container';
-      const video = document.createElement('video');
-      video.src = result.info.secure_url;
-      video.controls = true;
-      div.appendChild(video);
-      container.appendChild(div);
-    }
-  });
+const widget = cloudinary.createUploadWidget(
+{
+cloudName: cloudName,
+uploadPreset: uploadPreset,
+resourceType: "video",
+multiple: true,
+sources: ["local","url","camera"],
+clientAllowedFormats:["mp4","mov","webm"]
+},
 
-  // Open the widget when button is clicked
-  document.getElementById('upload_widget').addEventListener('click', () => {
-    myWidget.open();
-  }, false);
+(error,result)=>{
+
+if(!error && result && result.event === "success"){
+
+const videoURL = result.info.secure_url
+
+const box = document.createElement("div")
+box.className="videoBox"
+
+const vid = document.createElement("video")
+vid.src = videoURL
+vid.controls = true
+
+box.appendChild(vid)
+gallery.appendChild(box)
+
+}
+
+}
+)
+
+document.getElementById("uploadBtn").onclick = function(){
+widget.open()
+}
+
 </script>
 
 </body>
