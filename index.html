@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Iframe Video Gallery</title>
+<title>My YouTube-Style Video Gallery</title>
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  margin: 20px;
-  padding: 0;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 20px;
 }
 h1 {
   text-align: center;
@@ -18,43 +18,45 @@ h1 {
   display: block;
   margin: 0 auto 30px auto;
   width: 50%;
-  max-width: 500px;
+  max-width: 600px;
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 #videoGallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  justify-content: center;
 }
 .videoBox {
-  width: 510px;
-  height: 400px;
   background: white;
-  padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
-  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.videoBox:hover {
+  transform: scale(1.03);
 }
 .videoBox iframe {
-  width: 510px;
-  height: 360px;
+  width: 100%;
+  height: 200px;
   border: 0;
+  display: block;
 }
 .videoTitle {
-  margin-top: 10px;
+  padding: 10px;
   font-weight: bold;
   font-size: 16px;
+  color: #111;
+  text-align: left;
 }
 </style>
 </head>
 <body>
 
-<h1>Iframe Video Gallery</h1>
+<h1>My YouTube-Style Video Gallery</h1>
 <input type="text" id="searchBar" placeholder="Search videos...">
 
 <div id="videoGallery"></div>
@@ -63,8 +65,9 @@ h1 {
 // List your videos here
 const videos = [
   { src: "https://www.Xnxx.com/embedframe/uuktuoocb1f", title: "First Video" },
-  { src: "https://www.Xnxx.com/embedframe/abcd1234efg", title: "Second Video" },
-  { src: "https://www.Xnxx.com/embedframe/hijk5678lmn", title: "Third Video" }
+  { src: "https://www.pornhub.com/embedframe/abcd1234efg", title: "Second Video" },
+  { src: "https://www.sammy.com/embedframe/hijk5678lmn", title: "Third Video" },
+  // Add more videos here
 ];
 
 function loadVideos(filter = "") {
@@ -80,9 +83,6 @@ function loadVideos(filter = "") {
     const iframe = document.createElement("iframe");
     iframe.src = video.src;
     iframe.frameBorder = 0;
-    iframe.width = 510;
-    iframe.height = 360;
-    iframe.scrolling = "no";
     iframe.allowFullscreen = true;
 
     box.appendChild(iframe);
@@ -99,7 +99,7 @@ function loadVideos(filter = "") {
 // Initial load
 loadVideos();
 
-// Search functionality
+// Filter videos by search
 document.getElementById("searchBar").addEventListener("input", (e) => {
   loadVideos(e.target.value);
 });
