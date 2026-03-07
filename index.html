@@ -1,101 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Video Upload Library</title>
-
-<style>
-body{
-font-family: Arial;
-background:#f2f2f2;
-padding:20px;
-}
-
-h1{
-text-align:center;
-}
-
-#uploadBtn{
-display:block;
-margin:20px auto;
-padding:12px 25px;
-font-size:16px;
-cursor:pointer;
-}
-
-#gallery{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-justify-content:center;
-}
-
-.videoBox{
-width:320px;
-background:white;
-padding:10px;
-border-radius:8px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-video{
-width:100%;
-border-radius:5px;
-}
-</style>
-
+<title>My Video Platform</title>
 </head>
 
 <body>
 
-<h1>My Video Library</h1>
+<h2>Upload Video</h2>
 
-<button id="uploadBtn">Upload Video</button>
+<input type="file" id="fileInput">
+<button onclick="uploadVideo()">Upload</button>
 
-<div id="gallery"></div>
+<h2>Videos</h2>
+<div id="videos"></div>
 
-<script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-const cloudName = "dl7yjfpca"
-const uploadPreset = "irlEAK6ec4HytAtXWe_g8sZEdOU"
+const supabaseUrl = "https://vaffcwxgredmpjnebpkk.supabase.co"
 
-const gallery = document.getElementById("gallery")
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhZmZjd3hncmVkbXBqbmVicGtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5MDc5MzEsImV4cCI6MjA4ODQ4MzkzMX0.pZvY_vKBrvsnYkUPDdlrEqMu4LhMaqQFd24aSCMTmE8"
 
-const widget = cloudinary.createUploadWidget(
-{
-cloudName: cloudName,
-uploadPreset: uploadPreset,
-resourceType: "video",
-multiple: true,
-sources: ["local","url","camera"],
-clientAllowedFormats:["mp4","mov","webm"]
-},
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
 
-(error,result)=>{
+async function uploadVideo(){
 
-if(!error && result && result.event === "success"){
+const file = document.getElementById("fileInput").files[0]
 
-const videoURL = result.info.secure_url
+if(!file){
+alert("Choose a video first")
+return
+}
 
-const box = document.createElement("div")
-box.className="videoBox"
+const { data, error } = await supabaseClient.storage
+.from("videos")
+.upload(file.name, file)
 
-const vid = document.createElement("video")
-vid.src = videoURL
-vid.controls = true
+if(error){
+alert("Upload failed")
+console.log(error)
+return
+}
 
-box.appendChild(vid)
-gallery.appendChild(box)
+const { data: urlData } = supabaseClient.storage
+.from("videos")
+.getPublicUrl(file.name)
+
+addVideo(urlData.publicUrl)
 
 }
 
-}
-)
+function addVideo(url){
 
-document.getElementById("uploadBtn").onclick = function(){
-widget.open()
+const video = document.createElement("video")
+
+video.src = url
+video.controls = true
+video.width = 400
+
+document.getElementById("videos").appendChild(video)
+
 }
 
 </script>
