@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Sammy Videos</title>
 
 <style>
@@ -9,7 +11,7 @@
 body{
 margin:0;
 font-family:Arial;
-background:#f1f1f1;
+background:#f2f2f2;
 }
 
 .container{
@@ -20,70 +22,85 @@ margin:auto;
 .video-card{
 background:white;
 margin-bottom:20px;
+text-decoration:none;
+color:black;
+display:block;
 }
 
 .video-wrapper{
-position:relative;
 width:100%;
 aspect-ratio:16/9;
+background:black;
 }
 
-.video-wrapper iframe{
+.video-wrapper video{
 width:100%;
 height:100%;
-border:none;
+object-fit:cover;
 pointer-events:none;
 }
 
 .video-info{
-padding:10px;
+padding:12px;
 }
 
 .title{
 font-weight:bold;
+font-size:16px;
 }
 
 .desc{
-color:gray;
 font-size:14px;
+color:gray;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<a href="watch.html?id=uuktuoocb1f">
-<div class="video-card">
+<a class="video-card" href="watch.html?id=video1">
 
 <div class="video-wrapper">
-<iframe src="https://www.xnxx.com/embedframe/uuktuoocb1f"></iframe>
+<video src="https://www.xnxx.com/video-16kifpa2/me_and_my_baby_mama.mp4"></video>
 </div>
 
 <div class="video-info">
 <div class="title">First Video</div>
-<div class="desc">First video description</div>
+<div class="desc">Description of first video</div>
 </div>
 
-</div>
 </a>
 
 
-<a href="watch.html?id=video2">
-<div class="video-card">
+<a class="video-card" href="watch.html?id=video2">
 
 <div class="video-wrapper">
-<iframe src="https://www.xnxx.com/embedframe/video2"></iframe>
+<video src="videos/video2.mp4"></video>
 </div>
 
 <div class="video-info">
 <div class="title">Second Video</div>
-<div class="desc">Second video description</div>
+<div class="desc">Description of second video</div>
 </div>
 
+</a>
+
+
+<a class="video-card" href="watch.html?id=video3">
+
+<div class="video-wrapper">
+<video src="videos/video3.mp4"></video>
 </div>
+
+<div class="video-info">
+<div class="title">Third Video</div>
+<div class="desc">Description of third video</div>
+</div>
+
 </a>
 
 </div>
