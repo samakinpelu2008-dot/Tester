@@ -9,11 +9,13 @@
 body{
 margin:0;
 font-family:Arial;
+background:#f9f9f9;
 }
 
 .player{
 width:100%;
 aspect-ratio:16/9;
+background:black;
 }
 
 .player video{
@@ -21,16 +23,25 @@ width:100%;
 height:100%;
 }
 
-.download{
-display:block;
-padding:12px;
-text-align:center;
+.actions{
+padding:15px;
+}
+
+.download-btn{
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:8px 14px;
 background:#ff0000;
 color:white;
-font-weight:bold;
 text-decoration:none;
-margin:15px;
 border-radius:6px;
+font-size:14px;
+font-weight:bold;
+}
+
+.download-btn:hover{
+background:#cc0000;
 }
 
 </style>
@@ -40,14 +51,26 @@ border-radius:6px;
 <body>
 
 <div class="player">
-<video controls>
-<source src="video.mp4" type="video/mp4">
-</video>
+<video id="videoPlayer" controls></video>
 </div>
 
-<a class="download" href="video.mp4" download>
-Download Video
+<div class="actions">
+<a id="downloadBtn" class="download-btn" download>
+⬇ Download
 </a>
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const videoId = params.get("id");
+
+const videoURL = "videos/" + videoId + ".mp4";
+
+document.getElementById("videoPlayer").src = videoURL;
+document.getElementById("downloadBtn").href = videoURL;
+
+</script>
 
 </body>
 </html>
