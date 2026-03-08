@@ -2,49 +2,94 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>YouTube-Style Video Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sammy Video</title>
+
 <style>
-body { font-family: Arial; background:#f9f9f9; margin:0; padding:20px; }
-h1 { text-align:center; margin-bottom:20px; }
-#videoGallery { display:flex; flex-direction:column; gap:20px; max-width:900px; margin:auto; }
-.videoBox { cursor:pointer; background:white; padding:10px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.15); display:flex; align-items:center; gap:15px; transition: transform 0.2s; }
-.videoBox:hover { transform: scale(1.02); }
-.videoBox img { width:180px; height:100px; object-fit:cover; border-radius:5px; }
-.videoTitle { font-weight:bold; font-size:16px; color:#111; }
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f5f5f5;
+}
+
+.video-feed{
+width:100%;
+max-width:800px;
+margin:auto;
+}
+
+.video-card{
+margin-bottom:20px;
+background:white;
+}
+
+.video-wrapper{
+position:relative;
+width:100%;
+aspect-ratio:16/9;
+}
+
+.video-wrapper iframe{
+width:100%;
+height:100%;
+border:none;
+pointer-events:none;
+}
+
+.video-cover{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:transparent;
+cursor:pointer;
+}
+
+.video-info{
+padding:10px;
+}
+
+.video-title{
+font-size:16px;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.channel-name{
+color:gray;
+font-size:14px;
+}
+
 </style>
 </head>
+
 <body>
 
-<h1>Video Gallery</h1>
-<div id="videoGallery"></div>
+<div class="video-feed">
 
-<script>
-// Videos list
-const videos = [
-  { id: "uuktuoocb1f", title: "First Video", description: "Description for first video" },
-  { id: "abcd1234efg", title: "Second Video", description: "Description for second video" },
-  { id: "hijk5678lmn", title: "Third Video", description: "Description for third video" }
-];
+<a href="watch.html">
+<div class="video-card">
 
-const gallery = document.getElementById("videoGallery");
+<div class="video-wrapper">
 
-// Generate gallery items with auto thumbnails
-videos.forEach(video => {
-  const box = document.createElement("div");
-  box.className = "videoBox";
+<iframe src="https://www.sammy.com/embedframe/uuktuoocb1f"></iframe>
 
-  // Auto-generate thumbnail URL
-  const thumbnailUrl = `https://www.xnxx.com/embedframe/${video.id}/thumbnail.jpg`;
+<div class="video-cover"></div>
 
-  box.innerHTML = `<img src="${thumbnailUrl}" alt="${video.title}"><div class="videoTitle">${video.title}</div>`;
-  
-  box.addEventListener("click", () => {
-    window.location.href = `watch.html?id=${video.id}&title=${encodeURIComponent(video.title)}&desc=${encodeURIComponent(video.description)}`;
-  });
+</div>
 
-  gallery.appendChild(box);
-});
-</script>
+<div class="video-info">
+<div class="video-title">Amazing Video Title</div>
+<div class="channel-name">Sammy Channel</div>
+</div>
+
+</div>
+</a>
+
+</div>
 
 </body>
 </html>
